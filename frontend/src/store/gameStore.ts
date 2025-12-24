@@ -3,7 +3,7 @@
  */
 
 import { create } from 'zustand';
-import { gameApi, GameStatus, PromptResponse, LevelInfo } from '@/services/api';
+import { gameApi, GameStatus, PromptResponse, LevelInfo } from '../services/api';
 
 interface Attempt {
     id: string;

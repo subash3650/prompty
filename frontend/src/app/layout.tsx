@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { AuthProvider } from '@/components/auth/AuthProvider';
-import { Navbar } from '@/components/layout/Navbar';
-import { ToastContainer } from '@/components/ui/Toast';
+import { AuthProvider } from '../components/auth/AuthProvider';
+import { Navbar } from '../components/layout/Navbar';
+import { ToastContainer } from '../components/ui/Toast';
 
 export const metadata: Metadata = {
     title: 'Prompty Challenge - Prompt Injection Game',

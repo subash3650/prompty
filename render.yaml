@@ -59,7 +59,7 @@ services:
       # CORS - Frontend URL
       # ========================================
       - key: CORS_ORIGINS
-        value: http://localhost:3000,https://prompty-frontend.onrender.com
+        value: http://localhost:3000,https://prompty-frontend-p6bf.onrender.com
 
       # ========================================
       # SERVER CONFIG

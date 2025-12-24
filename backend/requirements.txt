@@ -11,6 +11,7 @@ python-multipart>=0.0.6,<1.0.0
 # Database - UPGRADED for Python 3.13 compatibility
 sqlalchemy>=2.0.36
 pg8000>=1.30.4
+psycopg2-binary>=2.9.9
 
 # Authentication
 python-jose[cryptography]>=3.3.0

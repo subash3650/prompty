@@ -35,8 +35,7 @@ services:
       # JWT AUTHENTICATION - Set manually
       # ========================================
       - key: JWT_SECRET
-        # ⚠️ SET THIS MANUALLY IN RENDER DASHBOARD
-        # Value: A random string (e.g., openssl rand -hex 32)
+        sync: false
 
       - key: JWT_ALGORITHM
         value: HS256
@@ -48,8 +47,7 @@ services:
       # GROQ AI API - Set manually with your key
       # ========================================
       - key: GROQ_API_KEY
-        # ⚠️ SET THIS MANUALLY IN RENDER DASHBOARD
-        # Get from: console.groq.com
+        sync: false
 
       - key: GROQ_MODEL
         value: llama-3.3-70b-versatile
@@ -82,8 +80,7 @@ services:
         value: admin
 
       - key: ADMIN_PASSWORD
-        # ⚠️ SET THIS MANUALLY IN RENDER DASHBOARD
-        # Use a strong password
+        sync: false
 
       # ========================================
       # RATE LIMITING

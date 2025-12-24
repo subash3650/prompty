@@ -3,7 +3,7 @@
  */
 
 import { useEffect } from 'react';
-import { useGameStore } from '@/store/gameStore';
+import { useGameStore } from '../store/gameStore';
 
 export function useGame() {
     const {

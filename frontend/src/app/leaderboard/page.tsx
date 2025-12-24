@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/hooks/useAuth';
-import { leaderboardApi, LeaderboardEntry, LeaderboardResponse } from '@/services/api';
+import { useAuth } from '../../hooks/useAuth';
+import { leaderboardApi, LeaderboardEntry, LeaderboardResponse } from '../../services/api';
 
 export default function LeaderboardPage() {
     const { isAuthenticated, user } = useAuth();
@@ -125,8 +125,8 @@ export default function LeaderboardPage() {
                                     <tr
                                         key={entry.user_id}
                                         className={`transition-colors ${entry.is_current_user
-                                                ? 'bg-primary-500/10'
-                                                : 'hover:bg-dark-800/50'
+                                            ? 'bg-primary-500/10'
+                                            : 'hover:bg-dark-800/50'
                                             }`}
                                     >
                                         {/* Rank */}

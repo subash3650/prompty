@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, ReactNode } from 'react';
-import { useAuthStore } from '@/store/authStore';
+import { useAuthStore } from '../../store/authStore';
 
 const AuthContext = createContext<null>(null);
 

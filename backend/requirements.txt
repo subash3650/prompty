@@ -19,7 +19,7 @@ passlib[bcrypt]>=1.7.4
 bcrypt>=4.1.2
 
 # Pydantic v2 - UPGRADED for wheel support
-pydantic>=2.10.0
+pydantic[email]>=2.10.0
 pydantic-settings>=2.6.0
 
 # Groq AI

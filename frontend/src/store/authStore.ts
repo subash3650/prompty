@@ -4,7 +4,7 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { authApi, User, LoginResponse } from '@/services/api';
+import { authApi, User, LoginResponse } from '../services/api';
 import { useGameStore } from './gameStore';
 
 interface AuthState {

@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useAuth } from '@/hooks/useAuth';
-import { useToast } from '@/components/ui/Toast';
+import { useAuth } from '../../../hooks/useAuth';
+import { useToast } from '../../../components/ui/Toast';
 
 export default function RegisterPage() {
     const router = useRouter();

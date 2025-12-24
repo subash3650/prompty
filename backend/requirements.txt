@@ -1,35 +1,43 @@
-# FastAPI and server
-fastapi==0.109.0
-uvicorn[standard]==0.27.0
-python-multipart==0.0.6
+# =============================================
+# PROMPTY BACKEND - REQUIREMENTS
+# Tested with Python 3.11 (Render compatible)
+# =============================================
 
-# Database
-sqlalchemy==2.0.25
-pg8000==1.30.4
+# FastAPI and server
+fastapi>=0.109.0,<1.0.0
+uvicorn[standard]>=0.27.0,<1.0.0
+python-multipart>=0.0.6,<1.0.0
+
+# Database - UPGRADED for Python 3.13 compatibility
+sqlalchemy>=2.0.36
+pg8000>=1.30.4
 
 # Authentication
-python-jose[cryptography]==3.3.0
-passlib[bcrypt]==1.7.4
-bcrypt==4.1.2
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+bcrypt>=4.1.2
 
-# Pydantic v2 (with pre-built wheels for Python 3.13)
+# Pydantic v2 - UPGRADED for wheel support
 pydantic>=2.10.0
 pydantic-settings>=2.6.0
 
 # Groq AI
-groq==0.4.2
+groq>=0.4.2
 
 # HTTP client
-httpx==0.26.0
+httpx>=0.26.0
 
 # Rate limiting
-slowapi==0.1.9
+slowapi>=0.1.9
 
 # Retry logic
-tenacity==8.2.3
+tenacity>=8.2.3
 
 # Logging
-structlog==24.1.0
+structlog>=24.1.0
 
 # Environment
-python-dotenv==1.0.0
+python-dotenv>=1.0.0
+
+# Gunicorn for production (Render recommended)
+gunicorn>=21.2.0

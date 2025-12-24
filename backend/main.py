@@ -177,10 +177,15 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# Configure CORS - Allow all origins for development
+# Configure CORS - Use settings + explicit production URLs
+cors_origins = settings.cors_origins_list + [
+    "http://localhost:3000",  # Local dev
+    "http://127.0.0.1:3000",  # Local dev alt
+    "https://prompty-frontend.onrender.com",  # Production frontend (update after deploying)
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

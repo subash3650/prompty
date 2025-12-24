@@ -120,7 +120,7 @@ services:
       # API URL - Points to backend
       # ========================================
       - key: NEXT_PUBLIC_API_URL
-        value: https://prompty-backend.onrender.com
+        value: https://prompty-backend-6mqq.onrender.com/
 
       # ========================================
       # ENVIRONMENT

@@ -11,11 +11,11 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
     
-    # Database (PostgreSQL with pg8000 driver)
-    database_url: str = "postgresql+pg8000://postgres:subash%40123@localhost:5432/prompty"
+    # Database (PostgreSQL with pg8000 driver) - MUST be set in .env
+    database_url: str = ""
     
-    # JWT
-    jwt_secret: str = "prompty-challenge-secret-key-must-be-at-least-32-characters"
+    # JWT - MUST be set in .env
+    jwt_secret: str = ""
     jwt_algorithm: str = "HS256"
     jwt_expire_hours: int = 6
     
@@ -39,9 +39,9 @@ class Settings(BaseSettings):
     event_name: str = "Prompty Challenge"
     max_concurrent_users: int = 60
     
-    # Admin
-    admin_username: str = "admin@prompty"
-    admin_password: str = "adminprompty"
+    # Admin - MUST be set in .env
+    admin_username: str = "admin"
+    admin_password: str = ""
     
     # Logging
     log_level: str = "INFO"

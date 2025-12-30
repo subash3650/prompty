@@ -39,6 +39,8 @@ class Level(Base):
     # Metadata
     defense_description = Column(Text, nullable=False)
     hint = Column(Text, nullable=True)
+    hint_revelation_stages = Column(Text, nullable=True)  # JSON array of progressive hints
+    hint_difficulty = Column(String(50), default="moderate")
     difficulty_rating = Column(Integer, default=1)  # 1-5 stars
 
     # Difficulty Scaling Engine

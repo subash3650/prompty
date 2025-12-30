@@ -12,7 +12,7 @@ class PromptSubmission(BaseModel):
         ...,
         min_length=1,
         max_length=5000,
-        description="The prompt to submit to Gandalf"
+        description="The prompt to submit to Prompty"
     )
     level: int = Field(
         ...,

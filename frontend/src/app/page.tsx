@@ -24,7 +24,7 @@ export default function HomePage() {
 
                         {/* Subtitle */}
                         <p className="text-xl md:text-2xl text-dark-300 mb-8 animate-slide-up">
-                            Can you extract the secret password from <span className="text-secondary-400 font-semibold">Gandalf</span>?
+                            Can you extract the secret password from <span className="text-secondary-400 font-semibold">Prompty</span>?
                         </p>
 
                         {/* Description */}
@@ -72,9 +72,9 @@ export default function HomePage() {
                             <div className="w-12 h-12 bg-primary-500/20 rounded-lg flex items-center justify-center mb-4">
                                 <span className="text-2xl">🧙‍♂️</span>
                             </div>
-                            <h3 className="text-xl font-semibold mb-2 text-white">Meet Gandalf</h3>
+                            <h3 className="text-xl font-semibold mb-2 text-white">Meet Prompty</h3>
                             <p className="text-dark-400">
-                                Gandalf guards a secret password. Your mission: craft clever prompts to extract it without triggering his defenses.
+                                Prompty guards a secret password. Your mission: craft clever prompts to extract it without triggering his defenses.
                             </p>
                         </div>
 

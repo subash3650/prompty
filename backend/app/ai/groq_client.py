@@ -133,7 +133,7 @@ class GroqClient:
         except Exception as e:
             logger.error(f"All Groq retries failed: {e}")
             # The original fallback message was:
-            # "Gandalf strokes his beard thoughtfully... 'My apologies, I seem to have lost my train of thought. Could you repeat that?'"
+            # "Prompty strokes his beard thoughtfully... 'My apologies, I seem to have lost my train of thought. Could you repeat that?'"
             # The instruction implies a conditional fallback, but 'response' is not defined here.
             # Assuming the intent is to replace the default fallback and add a new general one.
             # Given the structure of the instruction, it seems to want to replace the existing fallback with a new one.

@@ -1,6 +1,7 @@
 """Game service - handles prompt submission, level progression, and game logic."""
 
 import hashlib
+import json
 from datetime import datetime
 from typing import Optional, List, Tuple
 import logging
@@ -35,10 +36,12 @@ class GameService:
         level_info = None
         
         if level:
+            current_hint = self.get_progressive_hint(user, level)
+            
             level_info = LevelInfo(
                 level_number=level.level_number,
                 defense_description=level.defense_description,
-                hint=level.hint,
+                hint=current_hint,
                 difficulty_rating=level.difficulty_rating,
                 total_attempts_made=level.total_attempts_made,
                 success_rate=float(level.success_rate or 0),
@@ -57,6 +60,38 @@ class GameService:
             is_finished=user.is_finished,
             level_info=level_info,
         )
+
+    def get_progressive_hint(self, user: User, level: Level) -> str:
+        """Calculate the appropriate hint based on user attempts."""
+        attempts = self.get_user_attempt_count(user.id, level.level_number)
+        base_hint = level.hint
+        
+        if not level.hint_revelation_stages:
+            return base_hint if base_hint else ""
+            
+        try:
+            stages = json.loads(level.hint_revelation_stages)
+            if not stages:
+                return base_hint if base_hint else ""
+                
+            if attempts < 5:
+                # Initial stage: cryptic hint
+                return f"{base_hint}"
+            elif attempts < 10:
+                # Stage 1
+                stage_hint = stages[0] if len(stages) > 0 else base_hint
+                return f"{stage_hint} (Hint Level 1)"
+            elif attempts < 15:
+                # Stage 2
+                stage_hint = stages[1] if len(stages) > 1 else stages[-1]
+                return f"{stage_hint} (Hint Level 2)"
+            else:
+                # Stage 3
+                stage_hint = stages[2] if len(stages) > 2 else stages[-1]
+                return f"{stage_hint} (Max Hint)"
+        except Exception as e:
+            logger.error(f"Error parsing hint stages: {e}")
+            return base_hint if base_hint else ""
     
     def get_level(self, level_number: int) -> Optional[Level]:
         """Get level by number."""

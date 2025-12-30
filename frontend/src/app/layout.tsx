@@ -6,7 +6,7 @@ import { ToastContainer } from '../components/ui/Toast';
 
 export const metadata: Metadata = {
     title: 'Prompty Challenge - Prompt Injection Game',
-    description: 'A real-time competitive prompt injection challenge platform. Can you extract the secret password from Gandalf?',
+    description: 'A real-time competitive prompt injection challenge platform. Can you extract the secret password from Prompty?',
     keywords: ['prompt injection', 'AI security', 'CTF', 'challenge', 'game'],
 };
 

@@ -99,7 +99,7 @@ class SemanticOutputGuard(BaseGuard):
         for variation in variations:
             if variation.lower() in response_lower:
                 confidence = 0.9
-                threshold = float(kwargs.get('threshold', 0.5) or 0.5)
+                threshold = float(kwargs.get('threshold', 0.8) or 0.8)
                 
                 if confidence > threshold:
                     return GuardResult(
@@ -114,7 +114,7 @@ class SemanticOutputGuard(BaseGuard):
         spaced_letters = r'\s*'.join(letters)
         if re.search(spaced_letters, response.upper()):
             confidence = 0.85
-            threshold = float(kwargs.get('threshold', 0.5) or 0.5)
+            threshold = float(kwargs.get('threshold', 0.8) or 0.8)
             
             if confidence > threshold:
                 return GuardResult(

@@ -121,27 +121,28 @@ class IntentInputGuard(BaseGuard):
     
     # Intent indicators with weights
     INTENT_INDICATORS = {
-        "password": 0.3,
-        "secret": 0.25,
+        "password": 0.25,      # Reduced from 0.3
+        "secret": 0.20,        # Reduced from 0.25
         "hidden": 0.15,
-        "reveal": 0.2,
-        "tell me": 0.15,
+        "reveal": 0.15,        # Reduced from 0.2
+        "tell me": 0.10,       # Reduced from 0.15
         "give me": 0.15,
         "what is": 0.1,
         "share": 0.1,
         "show": 0.1,
         "disclose": 0.2,
-        "?": 0.05,  # Questions are more suspicious
-        "please": 0.05,  # Politeness can indicate social engineering
-        "admin": 0.3,
+        "?": 0.05,
+        "please": 0.05,
+        "admin": 0.40,         # Increased from 0.3
         "root": 0.3,
         "system": 0.2,
         "ignore": 0.4,
-        "instruction": 0.2,
+        "instruction": 0.3,    # Increased from 0.2
         "previous": 0.2,
+        "override": 0.4,       # Added
     }
     
-    DEFAULT_THRESHOLD = 0.5
+    DEFAULT_THRESHOLD = 0.60   # Increased from 0.5 (less strict)
     
     def check(self, prompt: str, **kwargs) -> GuardResult:
         """Calculate intent score and block if suspicious."""

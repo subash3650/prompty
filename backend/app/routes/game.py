@@ -47,7 +47,7 @@ async def submit_prompt(
     db: Session = Depends(get_db)
 ):
     """
-    Submit a prompt to Gandalf.
+    Submit a prompt to Prompty.
     
     This is the main game endpoint. The prompt is:
     1. Validated
@@ -72,7 +72,7 @@ async def submit_password(
     """
     Submit a password guess to advance to the next level.
     
-    Users extract the password from Gandalf's response and submit it here.
+    Users extract the password from Prompty's response and submit it here.
     If correct, they advance to the next level.
     """
     try:
@@ -114,7 +114,7 @@ async def get_level_info(
     return LevelInfo(
         level_number=level.level_number,
         defense_description=level.defense_description,
-        hint=level.hint,
+        hint=game_service.get_progressive_hint(current_user, level),
         difficulty_rating=level.difficulty_rating,
         total_attempts_made=level.total_attempts_made,
         success_rate=float(level.success_rate or 0),

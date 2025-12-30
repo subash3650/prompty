@@ -47,8 +47,13 @@ export default function GamePage() {
             const response = await submitPrompt(prompt.trim());
             if (response.success) {
                 toast.success(response.message);
-            } else if (response.input_guard_triggered || response.output_guard_triggered) {
-                toast.warning(response.message);
+            } else if (response.input_guard_triggered) {
+                toast.error(`Blocked by Input Guard: ${response.reason || 'Suspicious content detected'}`);
+            } else if (response.output_guard_triggered) {
+                toast.warning(`Filtered by Output Guard: ${response.reason || 'Password usage detected'}`);
+            } else {
+                // Generic failure (e.g. AI refusal without guard trigger)
+                toast.info(response.message || 'Prompt submitted');
             }
             setPrompt('');
         } catch (err: any) {
@@ -260,8 +265,9 @@ export default function GamePage() {
                                             )}
                                         </div>
                                     ) : (
-                                        <div className="h-48 flex items-center justify-center text-dark-500">
+                                        <div className="h-48 flex items-center justify-center text-dark-500 flex-col gap-2">
                                             <p>Prompty awaits your prompt...</p>
+
                                         </div>
                                     )}
                                 </div>

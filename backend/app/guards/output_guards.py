@@ -28,20 +28,28 @@ class ExactMatchOutputGuard(BaseGuard):
         if not secret:
             return GuardResult(blocked=False, guard_type=self.guard_type)
         
-        response_lower = response.lower()
-        secret_lower = secret.lower()
+        level = kwargs.get('level', 6)
         
-        if secret_lower in response_lower:
-                block_conf = 1.0
-                threshold = float(kwargs.get('threshold', 0.5) or 0.5)
-                
-                if block_conf > threshold:
-                    return GuardResult(
-                        blocked=True,
-                        reason="Password string detected in response",
-                        confidence=block_conf,
-                        guard_type=self.guard_type
-                    )
+        # Level 3 is case-SENSITIVE (allows 'defensetech', blocks 'DEFENSETECH')
+        # Higher levels are case-INSENSITIVE (blocks both)
+        case_sensitive = (level == 3)
+        
+        if case_sensitive:
+            if secret in response:
+                return GuardResult(
+                    blocked=True,
+                    reason="Password string detected (exact match)",
+                    confidence=1.0,
+                    guard_type=self.guard_type
+                )
+        else:
+            if secret.lower() in response.lower():
+                return GuardResult(
+                    blocked=True,
+                    reason="Password string detected (case-insensitive match)",
+                    confidence=1.0,
+                    guard_type=self.guard_type
+                )
         
         return GuardResult(blocked=False, guard_type=self.guard_type)
 
@@ -54,24 +62,41 @@ class SemanticOutputGuard(BaseGuard):
     
     guard_type = "semantic"
     
-    def generate_variations(self, secret: str) -> List[str]:
-        """Generate common variations of the password."""
+    guard_type = "semantic"
+    
+    def generate_variations(self, secret: str, level: int = 6) -> List[str]:
+        """Generate common variations of the password based on level containment."""
         variations = [
             secret,
             secret.lower(),
             secret.upper(),
-            secret.capitalize(),
-            # Spaced letters
-            " ".join(secret),
-            "-".join(secret),
-            "_".join(secret),
-            # Leetspeak common substitutions
-            self._to_leetspeak(secret),
-            # Reversed
-            secret[::-1],
-            # With common word breaks
-            self._add_spaces(secret),
         ]
+        
+        # Level 4+ Checks -> Modified to Level 5+ to lower difficulty
+        # Level 4 now only checks exact/case variations (like exact_match but stricter on casing)
+        # This makes Level 4 vulnerable to spacing, hyphens, etc.
+        if level >= 5:
+            variations.extend([
+                secret.capitalize(),
+                # Spaced letters
+                " ".join(secret),
+                "-".join(secret),
+                "_".join(secret),
+            ])
+
+        # Level 6+ Checks (Leetspeak) -> Moved from 5 to 6
+        if level >= 6:
+            variations.append(self._to_leetspeak(secret))
+            
+        # Level 7+ Checks (Advanced) -> Moved from 6 to 7
+        if level >= 7:
+            variations.extend([
+                # Reversed
+                secret[::-1],
+                # With common word breaks
+                self._add_spaces(secret),
+            ])
+            
         return [v for v in variations if v]  # Filter empty
     
     def _to_leetspeak(self, text: str) -> str:
@@ -93,36 +118,34 @@ class SemanticOutputGuard(BaseGuard):
         if not secret:
             return GuardResult(blocked=False, guard_type=self.guard_type)
         
+        level = kwargs.get('level', 6)
         response_lower = response.lower()
-        variations = self.generate_variations(secret)
+        variations = self.generate_variations(secret, level)
         
         for variation in variations:
             if variation.lower() in response_lower:
-                confidence = 0.9
+                return GuardResult(
+                    blocked=True,
+                    reason=f"Password variation detected",
+                    confidence=0.9,
+                    guard_type=self.guard_type
+                )
+        
+        # Check for letter-by-letter spelling (Only for Level 5+)
+        if level >= 5:
+            letters = list(secret.upper())
+            spaced_letters = r'\s*'.join(letters)
+            if re.search(spaced_letters, response.upper()):
+                confidence = 0.85
                 threshold = float(kwargs.get('threshold', 0.8) or 0.8)
                 
                 if confidence > threshold:
                     return GuardResult(
                         blocked=True,
-                        reason=f"Password variation detected",
+                        reason="Password spelled letter-by-letter",
                         confidence=confidence,
                         guard_type=self.guard_type
                     )
-        
-        # Check for letter-by-letter spelling
-        letters = list(secret.upper())
-        spaced_letters = r'\s*'.join(letters)
-        if re.search(spaced_letters, response.upper()):
-            confidence = 0.85
-            threshold = float(kwargs.get('threshold', 0.8) or 0.8)
-            
-            if confidence > threshold:
-                return GuardResult(
-                    blocked=True,
-                    reason="Password spelled letter-by-letter",
-                    confidence=confidence,
-                    guard_type=self.guard_type
-                )
         
         return GuardResult(blocked=False, guard_type=self.guard_type)
 
@@ -154,24 +177,28 @@ class CombinedOutputGuard(BaseGuard):
                 )
         
         # Additional checks for combined guard
-        # Check for obvious hints
-        hint_patterns = [
-            r"the (password|secret|answer) is",
-            r"here('s| is) the",
-            r"i('ll| will) tell you",
-            r"it starts with",
-            r"the word is",
-        ]
+        # Only check for hints if level is very high (Level 8)
+        # Otherwise, trust the ExactMatch and Semantic guards to catch the actual secret
         
-        response_lower = response.lower()
-        for pattern in hint_patterns:
-            if re.search(pattern, response_lower):
-                return GuardResult(
-                    blocked=True,
-                    reason="Password hint detected in response",
-                    confidence=0.7,
-                    guard_type=self.guard_type
-                )
+        level = kwargs.get('level', 6)
+        
+        if level >= 8:
+            # Stricter hint detection for top level
+            hint_patterns = [
+                r"the (password|secret|answer) is",
+                r"here('s| is) the secret",
+                r"the word is",
+            ]
+            
+            response_lower = response.lower()
+            for pattern in hint_patterns:
+                if re.search(pattern, response_lower):
+                    return GuardResult(
+                        blocked=True,
+                        reason="Password hint detected in response",
+                        confidence=0.7,
+                        guard_type=self.guard_type
+                    )
         
         return GuardResult(blocked=False, guard_type=self.guard_type)
 

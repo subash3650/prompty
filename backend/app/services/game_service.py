@@ -151,7 +151,8 @@ class GameService:
         input_guard = get_input_guard(level.input_guard_type)
         input_result = input_guard.check(
             submission.prompt,
-            threshold=float(level.input_guard_confidence_threshold) if level.input_guard_confidence_threshold is not None else 0.5
+            threshold=float(level.input_guard_confidence_threshold) if level.input_guard_confidence_threshold is not None else 0.5,
+            level=level.level_number
         )
         
         if input_result.blocked:
@@ -195,7 +196,8 @@ class GameService:
         output_result = output_guard.check(
             ai_response, 
             secret=level.secret_password,
-            threshold=float(level.output_guard_confidence_threshold) if level.output_guard_confidence_threshold is not None else 0.5
+            threshold=float(level.output_guard_confidence_threshold) if level.output_guard_confidence_threshold is not None else 0.5,
+            level=level.level_number
         )
         
         # Determine success: password was revealed (output guard NOT triggered)
